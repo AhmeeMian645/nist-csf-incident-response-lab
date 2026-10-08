@@ -64,7 +64,7 @@ The attacking IP was blocked at the Windows Firewall:
 New-NetFirewallRule -DisplayName "Block-BruteForce-IP" -Direction Inbound -RemoteAddress 192.168.56.102 -Action Block
 ```
 This single action served both containment (cutting the attacker's active path) and
-eradication (removing their means of further access) — in CSF 2.0, both fall under Respond
+eradication (removing their means of further access) as Blocking the attacking IP is clearly containment. It is not automatically eradication. If there was no malware, persistence, compromised account, or other attacker foothold to remove, then there may have been nothing to eradicate in this particular lab. — in CSF 2.0, both fall under Respond
 rather than being separate phases.
 
 ![Firewall block applied](screenshots/04-firewall-block-applied.png)
