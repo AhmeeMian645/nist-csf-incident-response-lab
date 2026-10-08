@@ -38,7 +38,7 @@ breaches succeed specifically because lockout policies were never enabled.
 run from Kali, finished at **2026-10-06 14:31:10**, successfully cracking the password
 (`abcdef`).
 
-![Attack execution](../nist-csf-incident-response-lab/screenshots/01-attack-execution.png.png)
+![Attack execution](screenshots/01-attack-execution.png)
 
 **Wazuh detection:** The attack generated **468 total alerts**, with **62 alerts (89.86%)**
 tagged under MITRE **T1110 — Brute Force**. Individual failed-logon events were also matched
@@ -47,8 +47,8 @@ single bad-password attempt; the aggregate pattern across many attempts is what 
 escalated the classification to Brute Force in the dashboard.
 
 ![Wazuh detection dashboard](screenshots/02-wazuh-detection-dashboard.png)
-![Wazuh log analysis](../nist-csf-incident-response-lab/screenshots/wazuh-log%20analysis_pattern.png)
-![Wazuh Mitre Mapping](../nist-csf-incident-response-lab/screenshots/002-wazuh-MitreMapping.png)
+![Wazuh log analysis](screenshots/wazuh-log%20analysis_pattern.png)
+![Wazuh Mitre Mapping](screenshots/002-wazuh-MitreMapping.png)
 
 
 
