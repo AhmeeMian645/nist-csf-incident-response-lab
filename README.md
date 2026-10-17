@@ -12,7 +12,14 @@ structured around that current model.
 An attacker on a Kali Linux VM (`192.168.56.102`) used Hydra with the rockyou.txt wordlist
 to brute-force RDP credentials on a Windows host (`192.168.56.1`), targeting the `testuser`
 account. Wazuh, running on a separate Ubuntu Server manager, monitored the Windows host via
-an installed agent.
+an installed agent.All activity was performed in an isolated lab environment that I own and control.
+
+   ## Lab Environment
+   | Component | Details |
+   |---|---|
+   | Attacker | Kali Linux VM (192.168.56.*), Hydra |
+   | Target | Windows [11] Host (192.168.56.*), Wazuh agent, Sysmon |
+   | SIEM | Wazuh manager on Ubuntu Server |
 
 ## 1. Govern
 This single-analyst lab has no organizational governance structure. The scope (one Windows host, one test account) and the reference standard (NIST SP 800-61 Rev. 3) were set before the attack, and the exercise followed a repeatable process: simulate → detect → respond → recover → document.
