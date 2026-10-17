@@ -40,7 +40,7 @@ run from Kali, finished at **2026-10-06 14:31:10**, successfully cracking the pa
 
 ![Attack execution](screenshots/01-attack-execution.png)
 
-**Wazuh detection:** The attack generated **468 total alerts**, with **62 alerts (89.86%)**
+**Wazuh detection:** The attack generated **69 total alerts**, with **62 alerts (89.86%)**
 tagged under MITRE **T1110 — Brute Force**. Individual failed-logon events were also matched
 to Rule ID `60122` (Level 5, MITRE T1531 — Account Access Removal), the base rule for a
 single bad-password attempt; the aggregate pattern across many attempts is what correctly
@@ -59,13 +59,19 @@ independently corroborating the Wazuh alert.
 ![Source attribution](screenshots/03-source-attribution.png)
 
 ## 5. Respond
-The attacking IP was blocked at the Windows Firewall:
+**CSF 2.0 function:** Respond → Incident Mitigation (RS.MI)
+
+After the analysis showed repeated failed RDP logons from a single source IP (192.168.56.102), I contained the activity by blocking that IP at the Windows Firewall:
+
 ```powershell
 New-NetFirewallRule -DisplayName "Block-BruteForce-IP" -Direction Inbound -RemoteAddress 192.168.56.102 -Action Block
 ```
-This single action served both containment (cutting the attacker's active path) and
-eradication (removing their means of further access) as Blocking the attacking IP is clearly containment. It is not automatically eradication. If there was no malware, persistence, compromised account, or other attacker foothold to remove, then there may have been nothing to eradicate in this particular lab. — in CSF 2.0, both fall under Respond
-rather than being separate phases.
+
+- **Containment (RS.MI-01):** The firewall rule cut the attacker's network path to RDP on the host.
+- **Eradication (RS.MI-02):** Not required in this lab. No malware, persistence, or compromised account was found, so there was nothing to remove.
+- **Verification:** Access was retested from the attacker host (blocked) and from a separate host (still allowed), confirming the control worked without disabling RDP for legitimate users.
+
+**Recommended hardening (not applied in this lab):** account lockout policy, Network Level Authentication, restricting RDP exposure (VPN or firewall allow-list), and automating the block with an active-response rule.
 
 ![Firewall block applied](screenshots/04-firewall-block-applied.png)
 
