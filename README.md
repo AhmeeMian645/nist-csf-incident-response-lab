@@ -1,9 +1,9 @@
 # Incident Response Lab — RDP Brute Force Attack
 ### Mapped to NIST SP 800-61 Revision 3 (2025) / CSF 2.0
 
-NIST withdrew the older four-phase incident response model (Preparation, Detection &
-Analysis, Containment/Eradication/Recovery, Post-Incident Activity) in April 2025. The
-current guidance, SP 800-61 Revision 3, integrates incident response into the six functions
+NIST superseded the older four-phase model (SP 800-61 Rev. 2) when it finalized Revision 3 in April 2025
+response model (Preparation, Detection &Analysis, Containment/Eradication/Recovery, Post-Incident Activity) 
+in April 2025. The current guidance, SP 800-61 Revision 3, integrates incident response into the six functions
 of the NIST Cybersecurity Framework 2.0: **Govern, Identify, Protect, Detect, Respond,
 Recover**. This report documents a simulated RDP brute-force attack and the full response,
 structured around that current model.
@@ -15,10 +15,7 @@ account. Wazuh, running on a separate Ubuntu Server manager, monitored the Windo
 an installed agent.
 
 ## 1. Govern
-This exercise was documented against a current, named standard (NIST SP 800-61 Rev. 3)
-rather than an outdated one, following a repeatable process: simulate → detect → respond →
-recover → document — the same discipline applied regardless of lab or production scale.
-
+This single-analyst lab has no organizational governance structure. The scope (one Windows host, one test account) and the reference standard (NIST SP 800-61 Rev. 3) were set before the attack, and the exercise followed a repeatable process: simulate → detect → respond → recover → document.
 ## 2. Identify
 **Asset:** Windows 10/11 VM, monitored by a Wazuh agent, with RDP (port 3389) enabled.
 **Account in scope:** `testuser`, added to the local Remote Desktop Users group.
@@ -47,7 +44,9 @@ single bad-password attempt; the aggregate pattern across many attempts is what 
 escalated the classification to Brute Force in the dashboard.
 
 ![Wazuh detection dashboard](screenshots/02-wazuh-detection-dashboard.png)
+
 ![Wazuh log analysis](screenshots/wazuh-log%20analysis_pattern.png)
+
 ![Wazuh Mitre Mapping](screenshots/002-wazuh-MitreMapping.png)
 
 
