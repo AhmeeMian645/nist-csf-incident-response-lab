@@ -68,10 +68,15 @@ New-NetFirewallRule -DisplayName "Block-BruteForce-IP" -Direction Inbound -Remot
 ```
 
 - **Containment (RS.MI-01):** The firewall rule cut the attacker's network path to RDP on the host.
-- **Eradication (RS.MI-02):** The testuser password was cracked during the attack, so the credential was treated as compromised. The password was reset to a strong, unique value, and Security logs (Event ID 4624) were reviewed for any successful logon from 192.168.56.102. No malware or persistence was identified.
+- **Eradication (RS.MI-02):** Security logs show a successful logon (Event ID 4624) from 192.168.56.102 at [TIME], confirming the cracked credential authenticated before the block. The testuser password was reset to a strong, unique value. [Local accounts and the Administrators group were reviewed; no unexpected changes were found.]
+
+![a successful logon](screenshots/07-4624-review.png)
+
+![Account Password Secured](screenshots/07-eradication-password-reset.png)
+
 - **Verification:** Access was retested from the attacker host (blocked) and from a separate host (still allowed), confirming the control worked without disabling RDP for legitimate users.
 
-**Recommended hardening (not applied in this lab):** account lockout policy, Network Level Authentication, restricting RDP exposure (VPN or firewall allow-list), and automating the block with an active-response rule.
+  
 
 ![Firewall block applied](screenshots/04-firewall-block-applied.png)
 
