@@ -1,12 +1,7 @@
 # Incident Response Lab — RDP Brute Force Attack
 ### Mapped to NIST SP 800-61 Revision 3 (2025) / CSF 2.0
 
-NIST superseded the older four-phase model (SP 800-61 Rev. 2) when it finalized Revision 3 in April 2025
-response model (Preparation, Detection &Analysis, Containment/Eradication/Recovery, Post-Incident Activity) 
-in April 2025. The current guidance, SP 800-61 Revision 3, integrates incident response into the six functions
-of the NIST Cybersecurity Framework 2.0: **Govern, Identify, Protect, Detect, Respond,
-Recover**. This report documents a simulated RDP brute-force attack and the full response,
-structured around that current model.
+NIST finalized SP 800-61 Revision 3 in April 2025, superseding Revision 2 and its four-phase model (Preparation; Detection & Analysis; Containment, Eradication & Recovery; Post-Incident Activity). Revision 3 aligns incident response with the six functions of the NIST Cybersecurity Framework 2.0: **Govern, Identify, Protect, Detect, Respond, Recover**. This report documents a simulated RDP brute-force attack and the response, structured around that current model.
 
 ## Scenario
 An attacker on a Kali Linux VM (`192.168.56.102`) used Hydra with the rockyou.txt wordlist
@@ -18,7 +13,7 @@ an installed agent.All activity was performed in an isolated lab environment tha
    | Component | Details |
    |---|---|
    | Attacker | Kali Linux VM (192.168.56.*), Hydra |
-   | Target | Windows [11] Host (192.168.56.*), Wazuh agent, Sysmon |
+   | Target | Windows 11 Host (192.168.56.*), Wazuh agent, Sysmon |
    | SIEM | Wazuh manager on Ubuntu Server |
 
 ## 1. Govern
@@ -72,19 +67,17 @@ After the analysis showed repeated failed RDP logons from a single source IP (19
 ```powershell
 New-NetFirewallRule -DisplayName "Block-BruteForce-IP" -Direction Inbound -RemoteAddress 192.168.56.102 -Action Block
 ```
+![Firewall block applied](screenshots/04-firewall-block-applied.png)
+
 
 - **Containment (RS.MI-01):** The firewall rule cut the attacker's network path to RDP on the host.
-- **Eradication (RS.MI-02):** Security logs show a successful logon (Event ID 4624) from 192.168.56.102 at [TIME], confirming the cracked credential authenticated before the block. The testuser password was reset to a strong, unique value. [Local accounts and the Administrators group were reviewed; no unexpected changes were found.]
+- **Eradication (RS.MI-02):** Security logs show a successful logon (Event ID 4624) from 192.168.56.102 at 11:31:09 pm, confirming the cracked credential authenticated before the block. The testuser password was reset to a strong, unique value. [Local accounts and the Administrators group were reviewed; no unexpected changes were found.]
 
 ![a successful logon](screenshots/07-4624-review.png)
-
+<br><br>
 ![Account Password Secured](screenshots/07-eradication-password-reset.png)
 
 - **Verification:** Access was retested from the attacker host (blocked) and from a separate host (still allowed), confirming the control worked without disabling RDP for legitimate users.
-
-  
-
-![Firewall block applied](screenshots/04-firewall-block-applied.png)
 
 ## 6. Recover
 Two checks confirmed the response was both effective and non-disruptive:
